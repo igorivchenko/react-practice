@@ -20,7 +20,7 @@ const Options: FC<OptionsProps> = ({ options, onFeedbackUpdate, totalFeedback, h
       ))}
       {totalFeedback > 0 ? (
         <button type="button" onClick={handleReset}>
-          Reset
+          Reset button
         </button>
       ) : null}
     </>
