@@ -7,13 +7,11 @@ const FriendListItem: FC<{ item: Friend }> = ({ item }) => {
       <div>
         <img src={item.avatar} alt="Avatar" width="48" />
         <p>{item.name}</p>
-        <p>
-          {item.isOnline ? (
-            <p style={{ color: 'green' }}>Online</p>
-          ) : (
-            <p style={{ color: 'red' }}>Offline</p>
-          )}
-        </p>
+        {item.isOnline ? (
+          <p style={{ color: 'green' }}>Online</p>
+        ) : (
+          <p style={{ color: 'red' }}>Offline</p>
+        )}
       </div>
     </>
   );
