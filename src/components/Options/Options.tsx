@@ -3,11 +3,14 @@ import { InitialStateTypes } from '../../types.ts';
 
 interface OptionsProps {
   options: InitialStateTypes;
+  totalFeedback: number;
   onFeedbackUpdate: (key: keyof InitialStateTypes) => void;
+  handleReset: () => void;
 }
 
-const Options: FC<OptionsProps> = ({ options, onFeedbackUpdate }) => {
+const Options: FC<OptionsProps> = ({ options, onFeedbackUpdate, totalFeedback, handleReset }) => {
   const keys = Object.keys(options) as (keyof InitialStateTypes)[];
+
   return (
     <>
       {keys.map(key => (
@@ -15,6 +18,11 @@ const Options: FC<OptionsProps> = ({ options, onFeedbackUpdate }) => {
           {key}
         </button>
       ))}
+      {totalFeedback > 0 ? (
+        <button type="button" onClick={handleReset}>
+          Reset button
+        </button>
+      ) : null}
     </>
   );
 };

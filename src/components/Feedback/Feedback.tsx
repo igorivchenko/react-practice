@@ -1,7 +1,13 @@
 import { FC } from 'react';
 import { InitialStateTypes } from '../../types.ts';
 
-const Feedback: FC<{ options: InitialStateTypes }> = ({ options }) => {
+interface FeedbackProps {
+  options: InitialStateTypes;
+  totalFeedback: number;
+  positiveFeedback: number;
+}
+
+const Feedback: FC<FeedbackProps> = ({ options, totalFeedback, positiveFeedback }) => {
   const { good, neutral, bad } = options;
   return (
     <>
@@ -9,6 +15,8 @@ const Feedback: FC<{ options: InitialStateTypes }> = ({ options }) => {
         <li>Good: {good}</li>
         <li>Neutral: {neutral}</li>
         <li>Bad: {bad}</li>
+        <li>Total: {totalFeedback}</li>
+        <li>Positive: {positiveFeedback}%</li>
       </ul>
     </>
   );

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Description from './Description/Description.tsx';
 import Options from './Options/Options.tsx';
@@ -12,21 +12,46 @@ function App() {
     bad: 0,
   };
 
-  const [options, SetOptions] = useState<InitialStateTypes>(initialState);
+  const [options, SetOptions] = useState<InitialStateTypes>(() => {
+    const savedState = localStorage.getItem('options');
+
+    if (savedState) return JSON.parse(savedState);
+
+    return initialState;
+  });
+
+  useEffect(() => localStorage.setItem('options', JSON.stringify(options)), [options]);
 
   const updateFeedback = (feedbackType: keyof InitialStateTypes) => {
     SetOptions(prev => {
       return { ...prev, [feedbackType]: prev[feedbackType] + 1 };
     });
   };
+
+  const handleReset = () => SetOptions(initialState);
+
   const { good, neutral, bad } = options;
   const totalFeedback = good + neutral + bad;
+  const positiveFeedback = Math.round((good / totalFeedback) * 100);
 
   return (
     <>
       <Description />
-      <Options options={options} onFeedbackUpdate={updateFeedback} />
-      {totalFeedback > 0 ? <Feedback options={options} /> : <Notification />}
+      <Options
+        options={options}
+        onFeedbackUpdate={updateFeedback}
+        handleReset={handleReset}
+        totalFeedback={totalFeedback}
+      />
+      {totalFeedback > 0 ? (
+        <Feedback
+          options={options}
+          totalFeedback={totalFeedback}
+          positiveFeedback={positiveFeedback}
+        />
+      ) : (
+        <Notification />
+      )}
     </>
   );
 }
