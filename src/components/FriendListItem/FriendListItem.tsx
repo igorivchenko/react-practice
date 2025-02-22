@@ -13,6 +13,7 @@ const FriendListItem: FC<{ item: Friend }> = ({ item }) => {
           <p style={{ color: 'red' }}>Offline</p>
         )}
       </div>
+      <p>hello</p>
     </>
   );
 };
