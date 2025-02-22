@@ -1,22 +1,32 @@
+import { useState } from 'react';
 import './App.css';
-import Profile from './Profile/Profile.tsx';
-import userData from '../userData.json';
-import friends from '../friends.json';
-import transactions from '../transactions.json';
-import FriendList from './FriendList/FriendList.tsx';
-import TransactionHistory from './TransactionHistory/TransactionHistory.tsx';
+import Description from './Description/Description.tsx';
+import Options from './Options/Options.tsx';
+import Feedback from './Feedback/Feedback.tsx';
+import { InitialStateTypes } from '../types.ts';
+import Notification from './Notification/Notification.tsx';
 function App() {
+  const initialState = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
+
+  const [options, SetOptions] = useState<InitialStateTypes>(initialState);
+
+  const updateFeedback = (feedbackType: keyof InitialStateTypes) => {
+    SetOptions(prev => {
+      return { ...prev, [feedbackType]: prev[feedbackType] + 1 };
+    });
+  };
+  const { good, neutral, bad } = options;
+  const totalFeedback = good + neutral + bad;
+
   return (
     <>
-      <Profile
-        name={userData.username}
-        tag={userData.tag}
-        location={userData.location}
-        image={userData.avatar}
-        stats={userData.stats}
-      />
-      <FriendList friends={friends} />
-      <TransactionHistory items={transactions} />
+      <Description />
+      <Options options={options} onFeedbackUpdate={updateFeedback} />
+      {totalFeedback > 0 ? <Feedback options={options} /> : <Notification />}
     </>
   );
 }

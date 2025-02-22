@@ -1,6 +1,5 @@
-export type Friend = {
-  avatar: string;
-  name: string;
-  isOnline: boolean;
-  id: number;
-};
+export interface InitialStateTypes {
+  good: number;
+  neutral: number;
+  bad: number;
+}
